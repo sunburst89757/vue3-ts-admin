@@ -1,9 +1,12 @@
 <template>
-  <div id="nav">
-    <router-link to="/main">main</router-link> |
-    <router-link to="/login">login</router-link>
+  <div>
+    <router-view />
   </div>
-  <router-view />
 </template>
 
-<style lang="less"></style>
+<style lang="less" scoped>
+div {
+  width: 100%;
+  height: 100%;
+}
+</style>
