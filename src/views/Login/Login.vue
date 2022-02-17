@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <h1 class="title">XXXX管理系统</h1>
     <LoginPanelVue></LoginPanelVue>
   </div>
 </template>
@@ -19,5 +20,10 @@ import LoginPanelVue from "./components/LoginPanel.vue";
   background-image: url("../../assets/img/background.png");
   background-position: center;
   background-repeat: no-repeat;
+  .title {
+    position: absolute;
+    color: #fff;
+    top: 10%;
+  }
 }
 </style>
