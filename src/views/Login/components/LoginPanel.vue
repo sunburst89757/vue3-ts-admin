@@ -7,17 +7,21 @@
       <el-button color="#7d4ce5" class="btn" @click="toLogin">
         立即登录
       </el-button>
+      <div>{{ name }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { userStore } from "@/store";
 import LoginFormVue from "./LoginForm.vue";
 const loginFormRef = ref<InstanceType<typeof LoginFormVue>>();
 const toLogin = () => {
-  loginFormRef.value?.validate();
+  userStore.changeName();
 };
+const { name } = storeToRefs(userStore);
 </script>
 
 <style scoped lang="less">
