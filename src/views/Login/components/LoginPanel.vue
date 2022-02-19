@@ -3,7 +3,7 @@
     <div class="left-block"></div>
     <div class="right-block">
       <div class="title1">用户登录</div>
-      <LoginFormVue ref="loginFormRef"></LoginFormVue>
+      <login-form ref="loginFormRef"></login-form>
       <el-button color="#7d4ce5" class="btn" @click="toLogin">
         立即登录
       </el-button>
@@ -14,10 +14,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { userStore } from "@/store";
-import LoginFormVue from "./LoginForm.vue";
-const loginFormRef = ref<InstanceType<typeof LoginFormVue>>();
+import LoginForm from "./LoginForm.vue";
+const loginFormRef = ref<InstanceType<typeof LoginForm>>();
 const toLogin = () => {
   loginFormRef.value?.validate();
 };

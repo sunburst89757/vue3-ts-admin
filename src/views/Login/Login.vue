@@ -1,13 +1,13 @@
 <template>
   <div class="login">
     <h1 class="title">XXXX管理系统</h1>
-    <LoginPanelVue></LoginPanelVue>
+    <login-panel></login-panel>
   </div>
 </template>
 
 <script setup lang="ts">
 // login封装的时候实现点击按钮拿到封装到内层的数据使用ref
-import LoginPanelVue from "./components/LoginPanel.vue";
+import LoginPanel from "./components/LoginPanel.vue";
 </script>
 
 <style scoped lang="less">
