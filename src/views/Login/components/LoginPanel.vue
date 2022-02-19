@@ -19,7 +19,7 @@ import { userStore } from "@/store";
 import LoginFormVue from "./LoginForm.vue";
 const loginFormRef = ref<InstanceType<typeof LoginFormVue>>();
 const toLogin = () => {
-  userStore.changeName();
+  loginFormRef.value?.validate();
 };
 const { name } = storeToRefs(userStore);
 </script>

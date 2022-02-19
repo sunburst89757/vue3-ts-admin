@@ -7,9 +7,11 @@ const config = {
   baseURL: "https://bgt.d9lab.net/trade",
   timeout: 10000
 };
+// 每个baseurl单独的拦截钩子配置,这里私有的拦截器先触发，公共的拦截器后触发
+// 所以两次响应拦截要注意return的值是return res还是return res.data
 const interceptorsHooks: interceptorsType = {
   requestSuccess(config) {
-    console.log("请求拦截器成功");
+    // console.log("请求拦截器成功");
     return config;
   },
   requestError(err) {
@@ -25,4 +27,4 @@ const interceptorsHooks: interceptorsType = {
     return Promise.reject(err);
   }
 };
-export default new Request(config, interceptorsHooks);
+export default new Request(config);

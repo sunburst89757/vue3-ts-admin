@@ -1,5 +1,11 @@
 import axios, { AxiosPromise } from "axios";
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import type {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosRequestHeaders
+} from "axios";
+import cache from "@/utils/cache";
 import { ElLoading } from "element-plus";
 interface interceptorsType {
   requestSuccess?: (config: AxiosRequestConfig) => void;
@@ -29,6 +35,10 @@ class Request {
     // 所有实例共有的拦截器钩子：这里的钩子是写死的，所以，每次调这个对象都会执行，因此这是共有的
     this.service.interceptors.request.use(
       (config) => {
+        const token = cache.getCache("token");
+        if (token) {
+          (config.headers as AxiosRequestHeaders).Authorization = token;
+        }
         if (this.isShowLoading) {
           this.loading = ElLoading.service({
             lock: true,
@@ -36,24 +46,24 @@ class Request {
             background: "rgba(0, 0, 0, 0.5)"
           });
         }
-        console.log("共有的请求拦截成功");
+        // console.log("共有的请求拦截成功");
         return config;
       },
       (err) => {
-        console.log("共有的请求拦截失败");
+        // console.log("共有的请求拦截失败");
         return Promise.reject(err);
       }
     );
     this.service.interceptors.response.use(
       (res) => {
-        console.log("共有的响应拦截成功");
+        // console.log("共有的响应拦截成功", res);
         setTimeout(() => {
           this.loading.close();
         }, 3000);
-        return res;
+        return res.data;
       },
       (err) => {
-        console.log("共有的响应拦截失败");
+        // console.log("共有的响应拦截失败");
         return Promise.reject(err);
       }
     );
