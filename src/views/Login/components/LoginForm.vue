@@ -68,7 +68,7 @@ const validate = () => {
       cache.setCache("username", loginForm.username);
       cache.setCache("password", loginForm.password);
       console.log("验证通过进行登录操作");
-      userStore.toLogin({ ...loginForm });
+      userStore.toLogin(loginForm);
     } else {
       console.log("验证失败，提示");
     }

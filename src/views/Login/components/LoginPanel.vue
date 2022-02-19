@@ -21,7 +21,6 @@ const loginFormRef = ref<InstanceType<typeof LoginFormVue>>();
 const toLogin = () => {
   loginFormRef.value?.validate();
 };
-const { name } = storeToRefs(userStore);
 </script>
 
 <style scoped lang="less">

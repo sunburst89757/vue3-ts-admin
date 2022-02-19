@@ -2,17 +2,20 @@ import { defineStore } from "pinia";
 import cache from "@/utils/cache";
 import { login, getUserMenus } from "@/api/login/user";
 import type { userType, ILoginResult } from "@/api/login/types";
+import router from "@/router";
 interface stateType {
   nickName: string;
   userId: number;
   token: string;
+  menus: any;
 }
 export const useUserStore = defineStore("mian", {
   state: (): stateType => {
     return {
       nickName: "",
       userId: 0,
-      token: ""
+      token: "",
+      menus: []
     };
   },
   getters: {
@@ -33,6 +36,7 @@ export const useUserStore = defineStore("mian", {
         });
         // 设置缓存
         this.loginCache(data);
+        router.push("/");
         // 获取菜单
         this.getMenus();
       } else {

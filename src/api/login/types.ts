@@ -4,7 +4,7 @@ export type userType = {
 };
 export enum LoginAPI {
   login = "/login/login",
-  menus = "/system/menu/getMenuList"
+  menus = "/system/user/getUserMenus"
 }
 
 export interface ILoginResult {
