@@ -34,11 +34,11 @@ export const useUserStore = defineStore("mian", {
           token: data.token,
           userId: data.userId
         });
+        // 获取菜单
+        this.getMenus();
         // 设置缓存
         this.loginCache(data);
         router.push("/");
-        // 获取菜单
-        this.getMenus();
       } else {
         console.log(111);
       }
@@ -50,6 +50,8 @@ export const useUserStore = defineStore("mian", {
     },
     async getMenus() {
       const { data } = await getUserMenus();
+      this.menus = data;
+      cache.setCache("menus", data);
       console.log("查看菜单数据", data);
     }
   }

@@ -7,7 +7,6 @@
       <el-button color="#7d4ce5" class="btn" @click="toLogin">
         立即登录
       </el-button>
-      <div>{{ name }}</div>
     </div>
   </div>
 </template>

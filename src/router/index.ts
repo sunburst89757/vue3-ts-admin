@@ -7,12 +7,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     component: () => import("@/components/Layout.vue"),
-    redirect: "/dashboard",
+    redirect: "/home",
     children: [
       {
         // 这里子路由匹配是唯一特殊的，spa的整体布局需要匹配layout作为父组件，子组件也是路由组件也得匹配，dashboard想
         // 作为一级路由必须做为/的子路由,子路由前面不能加/
-        path: "dashboard",
+        path: "home",
         component: () => import("@/views/Dashboard/Dashboard.vue")
       }
     ]
