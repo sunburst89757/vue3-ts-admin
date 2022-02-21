@@ -1,3 +1,5 @@
 import { useUserStore } from "./modules/user";
+import { useTabs } from "./modules/tabs";
 const userStore = useUserStore();
-export { userStore };
+const tabsStore = useTabs();
+export { userStore, tabsStore };

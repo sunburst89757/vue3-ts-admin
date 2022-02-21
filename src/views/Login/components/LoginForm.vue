@@ -59,8 +59,8 @@ const rules = reactive({
   ]
 });
 let loginForm = reactive<ILoginType>({
-  username: cache.getCache("username") || "",
-  password: cache.getCache("password") || ""
+  username: cache.getCache("username") || "test",
+  password: cache.getCache("password") || "123456"
 });
 const validate = () => {
   ruleFormRef.value?.validate((valid) => {

@@ -9,7 +9,7 @@
           <nav-menu></nav-menu>
         </el-aside>
         <el-main>
-          <router-view></router-view>
+          <nav-tabs></nav-tabs>
         </el-main>
       </el-container>
     </el-container>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import NavMenu from "./Menu.vue";
 import NavHeader from "./Header.vue";
+import NavTabs from "./Tabs.vue";
 import { ref, reactive } from "vue";
 </script>
 

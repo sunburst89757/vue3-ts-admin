@@ -4,11 +4,9 @@
       active-text-color="#ffd04b"
       background-color="#545c64"
       class="el-menu-vertical-demo menus"
-      default-active="首页"
+      :default-active="menuActive"
       text-color="#fff"
       :collapse="isCollapse"
-      @open="handleOpen"
-      @close="handleClose"
       router
     >
       <template v-for="menu in menus" :key="menu.id">
@@ -26,12 +24,18 @@
             v-for="menuItem in menu.children"
             :key="menuItem.id"
             :route="'/salesManage/' + menuItem.path"
+            @click="sendMessageToTabs('/salesManage/' + menuItem.path, $event)"
           >
             <el-icon><setting /></el-icon>
             <template #title>{{ menuItem.name }}</template>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item v-else :index="menu.name" :route="'/' + menu.path">
+        <el-menu-item
+          v-else
+          :index="menu.name"
+          :route="'/' + menu.path"
+          @click="sendMessageToTabs('/' + menu.path, $event)"
+        >
           <el-icon><icon-menu /></el-icon>
           <template #title>{{ menu.name }}</template>
         </el-menu-item>
@@ -41,21 +45,34 @@
 </template>
 
 <script setup lang="ts">
-// import { storeToRefs } from "pinia";
+import { storeToRefs } from "pinia";
 import cache from "@/utils/cache";
-// import { userStore } from "@/store";
+import { tabsStore } from "@/store";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, defineExpose, onMounted } from "vue";
 // const { menus } = storeToRefs(userStore);
+interface tabType {
+  title: string;
+  path: string;
+}
+let { menuActive } = storeToRefs(tabsStore);
 let isCollapse = ref(false);
-// const defaultActiveMenuItem = menus.value[0].name;
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+let tabOption: tabType = {
+  title: "",
+  path: ""
 };
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
+// 点击菜单栏一项，tab增加一栏
+const sendMessageToTabs = (path: any, event: any) => {
+  menuActive.value = event.index;
+  tabOption.title = event.index;
+  tabOption.path = path;
+  tabsStore.addTab(tabOption);
 };
+
 const menus = cache.getCache("menus");
+defineExpose({
+  tabOption
+});
 </script>
 
 <style scoped lang="less">

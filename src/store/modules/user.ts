@@ -38,7 +38,6 @@ export const useUserStore = defineStore("mian", {
         this.getMenus();
         // 设置缓存
         this.loginCache(data);
-        router.push("/");
       } else {
         console.log(111);
       }
@@ -53,6 +52,7 @@ export const useUserStore = defineStore("mian", {
       this.menus = data;
       cache.setCache("menus", data);
       console.log("查看菜单数据", data);
+      router.push("/");
     }
   }
 });
