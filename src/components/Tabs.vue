@@ -34,7 +34,9 @@ const removeTab = (path: string) => {
     });
     _.pull(tabs.value, val);
     tabActive.value = tabs.value[tabs.value.length - 1].path;
-    router.push(tabActive.value);
+    router.push({
+      name: tabActive.value
+    });
   } else {
     tabs.value.pop();
     tabs.value.push({

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
-import { salesManageRouter } from "./salesManage/";
+import asyncRoutes from "./asyncRoutes";
 import cache from "@/utils/cache";
 // 父组件是路由组件就匹配了其中一个，子组件也是路由组件，则必须匹配子路由才可以
 const routes: RouteRecordRaw[] = [
@@ -19,10 +19,10 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/login",
-    name: "Login",
+    name: "登录",
     component: () => import("../views/Login/Login.vue")
   },
-  ...salesManageRouter
+  ...asyncRoutes
 ];
 
 const router = createRouter({
@@ -44,3 +44,5 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
+
+export { asyncRoutes };

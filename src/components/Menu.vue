@@ -7,37 +7,40 @@
       :default-active="menuActive"
       text-color="#fff"
       :collapse="isCollapse"
-      router
     >
-      <template v-for="menu in menus" :key="menu.id">
+      <template v-for="menu in asyncRoutes" :key="menu.path">
         <el-sub-menu
-          :index="menu.name"
+          :index="menu.path"
           v-if="menu.children && menu.children.length > 0"
         >
           <template #title>
             <!-- <el-icon><component :is="menu.icon"></component></el-icon> -->
             <el-icon><icon-menu></icon-menu></el-icon>
-            <span>{{ menu.name }}</span>
+            <span>{{ (menu.meta as any).name }}</span>
           </template>
           <el-menu-item
-            :index="menuItem.name"
+            :index="menuItem.path"
             v-for="menuItem in menu.children"
-            :key="menuItem.id"
-            :route="'/salesManage/' + menuItem.path"
-            @click="sendMessageToTabs('/salesManage/' + menuItem.path, $event)"
+            :key="menuItem.path"
+            @click="sendMessageToTabs({
+              title:(menuItem.meta as any).name as string,
+              path:menuItem.name as string
+            },$event)"
           >
             <el-icon><setting /></el-icon>
-            <template #title>{{ menuItem.name }}</template>
+            <template #title>{{ (menuItem.meta as any).name }}</template>
           </el-menu-item>
         </el-sub-menu>
         <el-menu-item
           v-else
-          :index="menu.name"
-          :route="'/' + menu.path"
-          @click="sendMessageToTabs('/' + menu.path, $event)"
+          :index="menu.path"
+          @click="sendMessageToTabs({
+              title:(menu.meta as any).name as string,
+              path:menu.name as string
+            },$event)"
         >
           <el-icon><icon-menu /></el-icon>
-          <template #title>{{ menu.name }}</template>
+          <template #title>{{ (menu.meta as any).name }}</template>
         </el-menu-item>
       </template>
     </el-menu>
@@ -45,12 +48,13 @@
 </template>
 
 <script setup lang="ts">
+import { asyncRoutes } from "@/router";
+import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
-import cache from "@/utils/cache";
 import { tabsStore } from "@/store";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
-import { ref, reactive, defineExpose, onMounted } from "vue";
-// const { menus } = storeToRefs(userStore);
+import { ref, reactive, defineExpose } from "vue";
+const router = useRouter();
 interface tabType {
   title: string;
   path: string;
@@ -61,15 +65,23 @@ let tabOption: tabType = {
   title: "",
   path: ""
 };
-// 点击菜单栏一项，tab增加一栏
-const sendMessageToTabs = (path: any, event: any) => {
-  menuActive.value = event.index;
-  tabOption.title = event.index;
-  tabOption.path = path;
-  tabsStore.addTab(tabOption);
+const isTabInTabs = (tab: tabType) => {
+  const flag = tabsStore.$state.tabs.some((item) => {
+    return item === tab;
+  });
+  return flag;
 };
-
-const menus = cache.getCache("menus");
+// 点击菜单栏一项，tab增加一栏
+const sendMessageToTabs = (menuOption: tabType, event: any) => {
+  menuActive.value = event.index;
+  tabOption.title = menuOption.title;
+  tabOption.path = menuOption.path;
+  tabsStore.addTab(tabOption);
+  router.push({
+    name: menuOption.path
+  });
+};
+console.log("菜单有啥", asyncRoutes);
 defineExpose({
   tabOption
 });

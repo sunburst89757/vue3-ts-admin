@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import cache from "@/utils/cache";
-import { login, getUserMenus } from "@/api/login/user";
+import { login } from "@/api/login/user";
 import type { userType, ILoginResult } from "@/api/login/types";
 import router from "@/router";
 interface stateType {
@@ -35,9 +35,10 @@ export const useUserStore = defineStore("mian", {
           userId: data.userId
         });
         // 获取菜单
-        this.getMenus();
+        // this.getMenus();
         // 设置缓存
         this.loginCache(data);
+        router.push("/");
       } else {
         console.log(111);
       }
@@ -46,13 +47,13 @@ export const useUserStore = defineStore("mian", {
       cache.setCache("token", data.token);
       cache.setCache("userId", data.userId);
       cache.setCache("nickName", data.nickName);
-    },
-    async getMenus() {
-      const { data } = await getUserMenus();
-      this.menus = data;
-      cache.setCache("menus", data);
-      console.log("查看菜单数据", data);
-      router.push("/");
     }
+    // async getMenus() {
+    //   const { data } = await getUserMenus();
+    //   this.menus = data;
+    //   cache.setCache("menus", data);
+    //   console.log("查看菜单数据", data);
+    //   router.push("/");
+    // }
   }
 });
