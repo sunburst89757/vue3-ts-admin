@@ -5,7 +5,7 @@ interface tabType {
   path: string;
 }
 interface stateType {
-  tabs: tabType[];
+  tabs: any[];
   tabActive: string;
   menuActive: string;
 }

@@ -40,11 +40,13 @@ const removeTab = (path: string) => {
   } else {
     tabs.value.pop();
     tabs.value.push({
-      path: "/home",
+      path: "home",
       title: "首页"
     });
-    tabActive.value = "/home";
-    router.push("/home");
+    tabActive.value = "home";
+    router.push({
+      name: "home"
+    });
   }
 };
 const jumpOtherTab = (val: any) => {
