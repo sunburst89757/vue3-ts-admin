@@ -65,26 +65,23 @@ let tabOption: tabType = {
   title: "",
   path: ""
 };
-const isTabInTabs = (tab: tabType) => {
-  const flag = tabsStore.$state.tabs.some((item) => {
-    return item === tab;
-  });
-  return flag;
-};
 // 点击菜单栏一项，tab增加一栏
 const sendMessageToTabs = (menuOption: tabType, event: any) => {
+  console.log("menuOption", menuOption);
   menuActive.value = event.index;
   tabOption.title = menuOption.title;
   tabOption.path = menuOption.path;
-  tabsStore.addTab(tabOption);
+  console.log("tabOption", tabOption);
+  // 比较传递tabOption和menuOption为啥结果不一样
+  tabsStore.addTab(menuOption);
   router.push({
     name: menuOption.path
   });
 };
 console.log("菜单有啥", asyncRoutes);
-defineExpose({
-  tabOption
-});
+// defineExpose({
+//   tabOption
+// });
 </script>
 
 <style scoped lang="less">

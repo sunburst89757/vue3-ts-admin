@@ -5,9 +5,14 @@ interface tabType {
   path: string;
 }
 interface stateType {
-  tabs: any[];
+  tabs: tabType[];
   tabActive: string;
   menuActive: string;
+}
+function isTabIntabs(tab: tabType, tabs: tabType[]) {
+  return tabs.some((item) => {
+    return item.title === tab.title;
+  });
 }
 export const useTabs = defineStore({
   id: "tabsStore",
@@ -26,16 +31,14 @@ export const useTabs = defineStore({
   },
   actions: {
     addTab(tab: tabType) {
+      console.log(tab, "传递的tab");
+
       console.log(this.tabs);
-      console.log("传递的tab", tab);
-      this.tabs.push(tab);
-      // this.tabs = [...new Set(this.tabs)];
+      if (!isTabIntabs(tab, this.tabs)) {
+        this.tabs.push(tab);
+      }
+      // this.tabs.push(tab);
       this.tabActive = tab.path;
     }
-    // isTabIntabs(tab: tabType) {
-    //   return this.tabs.some((item) => {
-    //     return item.title == tab.title;
-    //   });
-    // }
   }
 });
