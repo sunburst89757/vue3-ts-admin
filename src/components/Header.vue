@@ -7,10 +7,13 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+import { userStore, tabsStore } from "@/store";
 import router from "@/router";
 import cache from "@/utils/cache";
 const logout = () => {
   cache.clearCache();
+  userStore.$reset();
+  tabsStore.$reset();
   router.push("/login");
 };
 </script>

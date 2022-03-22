@@ -48,13 +48,16 @@
 </template>
 
 <script setup lang="ts">
-import { asyncRoutes } from "@/router";
+import asyncRoutes from "@/router/asyncRoutes";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { tabsStore } from "@/store";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
-import { ref, reactive, defineExpose } from "vue";
+import { ref, computed } from "vue";
 const router = useRouter();
+const menuList = computed(() => {
+  return router.getRoutes();
+});
 interface tabType {
   title: string;
   path: string;
@@ -78,10 +81,7 @@ const sendMessageToTabs = (menuOption: tabType, event: any) => {
     name: menuOption.path
   });
 };
-console.log("菜单有啥", asyncRoutes);
-// defineExpose({
-//   tabOption
-// });
+console.log(menuList.value, "菜单");
 </script>
 
 <style scoped lang="less">

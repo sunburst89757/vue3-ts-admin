@@ -4,11 +4,16 @@ export type userType = {
 };
 export enum LoginAPI {
   login = "/login/login",
-  menus = "/system/user/getUserMenus"
+  userRole = "/system/role/getRoleList"
 }
 
 export interface ILoginResult {
   token: string;
   userId: number;
   nickName: string;
+}
+
+export interface IUserRoleType {
+  pageNum: number;
+  pageSize: number;
 }

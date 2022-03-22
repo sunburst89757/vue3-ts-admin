@@ -50,9 +50,9 @@ const removeTab = (path: string) => {
   }
 };
 const jumpOtherTab = (val: any) => {
-  menuActive.value = val.props.label;
-  console.log(val, "点击tab出现啥");
-  router.push(val.props.name);
+  menuActive.value = val.props.name;
+  console.log(val.props.name, "route的name");
+  router.push({ name: val.props.name });
 };
 </script>
 

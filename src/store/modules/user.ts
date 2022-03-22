@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import cache from "@/utils/cache";
-import { login } from "@/api/login/user";
+import { login, getUserRole } from "@/api/login/user";
 import type { userType, ILoginResult } from "@/api/login/types";
 import router from "@/router";
 interface stateType {
   nickName: string;
   userId: number;
   token: string;
-  menus: any;
+  role: string[];
 }
 export const useUserStore = defineStore("mian", {
   state: (): stateType => {
@@ -15,7 +15,7 @@ export const useUserStore = defineStore("mian", {
       nickName: "",
       userId: 0,
       token: "",
-      menus: []
+      role: []
     };
   },
   getters: {
@@ -34,10 +34,9 @@ export const useUserStore = defineStore("mian", {
           token: data.token,
           userId: data.userId
         });
-        // 获取菜单
-        // this.getMenus();
         // 设置缓存
         this.loginCache(data);
+        console.log(1);
         router.push("/");
       } else {
         console.log(111);
@@ -47,13 +46,19 @@ export const useUserStore = defineStore("mian", {
       cache.setCache("token", data.token);
       cache.setCache("userId", data.userId);
       cache.setCache("nickName", data.nickName);
+    },
+    // 获取用户角色
+    async getUserRole() {
+      // 这个接口乱写的，实际的时候要改
+      const { code } = await getUserRole({
+        pageNum: 1,
+        pageSize: 5
+      });
+      console.log("查看code", code);
+
+      this.role.push("super-admin");
+      cache.setCache("role", ["super-admin"]);
     }
-    // async getMenus() {
-    //   const { data } = await getUserMenus();
-    //   this.menus = data;
-    //   cache.setCache("menus", data);
-    //   console.log("查看菜单数据", data);
-    //   router.push("/");
-    // }
   }
+  // persist: true
 });

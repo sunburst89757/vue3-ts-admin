@@ -41,4 +41,6 @@ export const useTabs = defineStore({
       this.tabActive = tab.path;
     }
   }
+  // 开启数据缓存
+  // persist: true
 });
