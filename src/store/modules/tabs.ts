@@ -22,11 +22,11 @@ export const useTabs = defineStore({
         {
           title: "首页",
           // 这里的path实际上使用的是命名路由
-          path: "home"
+          path: "dashboard"
         }
       ],
-      tabActive: "home",
-      menuActive: "首页"
+      tabActive: "dashboard",
+      menuActive: "dashboard"
     };
   },
   actions: {

@@ -9,7 +9,7 @@
       :collapse="isCollapse"
       :unique-opened="true"
     >
-      <template v-for="menu in asyncRoutes" :key="menu.path">
+      <template v-for="menu in menus" :key="menu.path">
         <el-sub-menu
           :index="menu.path"
           v-if="menu.children && menu.children.length > 0"
@@ -34,7 +34,7 @@
         </el-sub-menu>
         <el-menu-item
           v-else
-          :index="menu.path"
+          :index="menu.name"
           @click="sendMessageToTabs({
               title:(menu.meta as any).name as string,
               path:menu.name as string
@@ -52,18 +52,16 @@
 import asyncRoutes from "@/router/asyncRoutes";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
-import { tabsStore } from "@/store";
+import { userStore, tabsStore } from "@/store";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 import { ref, computed } from "vue";
 const router = useRouter();
-const menuList = computed(() => {
-  return router.getRoutes();
-});
 interface tabType {
   title: string;
   path: string;
 }
 let { menuActive } = storeToRefs(tabsStore);
+let { menus } = storeToRefs(userStore);
 let isCollapse = ref(false);
 let tabOption: tabType = {
   title: "",

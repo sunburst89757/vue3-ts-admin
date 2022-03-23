@@ -34,18 +34,20 @@ const removeTab = (path: string) => {
     });
     _.pull(tabs.value, val);
     tabActive.value = tabs.value[tabs.value.length - 1].path;
+    menuActive.value = tabs.value[tabs.value.length - 1].path;
     router.push({
       name: tabActive.value
     });
   } else {
     tabs.value.pop();
     tabs.value.push({
-      path: "home",
+      path: "dashboard",
       title: "首页"
     });
-    tabActive.value = "home";
+    tabActive.value = "dashboard";
+    menuActive.value = "dashboard";
     router.push({
-      name: "home"
+      name: "dashboard"
     });
   }
 };
