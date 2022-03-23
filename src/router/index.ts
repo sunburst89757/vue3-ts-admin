@@ -28,89 +28,20 @@ const constanceRoutes: RouteRecordRaw[] = [
   {
     path: "/not-found",
     component: () => import("@/components/404.vue")
-  },
-  ...asyncRoutes
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes: constanceRoutes
 });
-function hasPermissonRoutes(route: RouteRecordRaw, role: string) {
-  if (route?.meta?.role) {
-    return route.meta.role.includes(role);
-  } else {
-    return true;
-  }
-}
-function getPermissionRoutes(routes: RouteRecordRaw[], role: string) {
-  const res: RouteRecordRaw[] = [];
-  routes.forEach((route) => {
-    const tmp = { ...route };
-    if (hasPermissonRoutes(tmp, role)) {
-      if (tmp?.children) {
-        tmp.children = getPermissionRoutes(tmp.children, role);
-      }
-      res.push(tmp);
-    }
-  });
-  return res;
-}
-function generateAccessibleRoute(role: string, routes: RouteRecordRaw[]) {
-  let accessibleRoute: RouteRecordRaw[];
-  if (role === "super-admin") {
-    console.log("这个");
-    accessibleRoute = routes;
-  } else {
-    console.log("不是这个");
-    accessibleRoute = getPermissionRoutes(routes, role);
-  }
-  return accessibleRoute;
-}
-
-function getUserRole() {
-  cache.setCache("role", ["super-admin"]);
-}
 
 router.beforeEach((to, from, next) => {
-  console.log(2);
-
   const token = cache.getCache("token");
-  const role = cache.getCache("role");
-  console.log(role, "role是啥");
-
   if (to.path !== "/login") {
     if (!token) {
       router.push("/login");
     } else {
-      //#region
-      if (role) {
-        console.log("之心那个");
-      } else {
-        // userStore.getUserRole();
-        getUserRole();
-        const accessibleRoute = generateAccessibleRoute(
-          cache.getCache("role")[0],
-          asyncRoutes
-        );
-
-        console.log(accessibleRoute, "可访问的路由");
-        accessibleRoute.forEach((route) => {
-          console.log(route, "是3个吗");
-          router.addRoute(route);
-          // if (route?.children) {
-          //   const tmp = { ...route };
-          //   delete tmp["children"];
-          //   router.addRoute(tmp);
-          //   route.children.forEach((item) => {
-          //     router.addRoute(tmp.name as RouteRecordName, item);
-          //   });
-          // } else {
-          //   router.addRoute(route);
-          // }
-        });
-      }
-      //#endregion
       next();
     }
   } else {

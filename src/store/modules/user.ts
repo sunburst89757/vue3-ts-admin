@@ -3,11 +3,36 @@ import cache from "@/utils/cache";
 import { login, getUserRole } from "@/api/login/user";
 import type { userType, ILoginResult } from "@/api/login/types";
 import router from "@/router";
+import asyncRoutes from "@/router/asyncRoutes";
 interface stateType {
   nickName: string;
   userId: number;
   token: string;
   role: string[];
+  menus: any[];
+}
+function map2Menus(role: string, routes: any[]): void {
+  if (role === "super-admin") {
+    return;
+  } else {
+    const delIndexs: number[] = [];
+    routes.forEach((route) => {
+      if (!route.meta.role || route.meta?.role.includes(role)) {
+        if (route?.children?.length > 0) {
+          map2Menus(role, route.children);
+        } else {
+          return;
+        }
+      } else {
+        const index = routes.findIndex((item) => item === route);
+        delIndexs.push(index);
+      }
+    });
+    delIndexs.forEach((val, index) => {
+      // 只有第一个删除的元素位置是正确的，后面由于数组长度减少，因此对应的序号也要减一才可以
+      index === 0 ? routes.splice(val, 1) : routes.splice(val - 1, 1);
+    });
+  }
 }
 export const useUserStore = defineStore("mian", {
   state: (): stateType => {
@@ -15,7 +40,8 @@ export const useUserStore = defineStore("mian", {
       nickName: "",
       userId: 0,
       token: "",
-      role: []
+      role: [],
+      menus: []
     };
   },
   getters: {
@@ -36,7 +62,10 @@ export const useUserStore = defineStore("mian", {
         });
         // 设置缓存
         this.loginCache(data);
-        console.log(1);
+        // 获取用户角色
+        await this.getUserRole();
+        // 根据用户角色生成用户菜单
+        this.generateUserMenus(this.role[0]);
         router.push("/");
       } else {
         console.log(111);
@@ -54,10 +83,23 @@ export const useUserStore = defineStore("mian", {
         pageNum: 1,
         pageSize: 5
       });
-      console.log("查看code", code);
-
       this.role.push("super-admin");
+      console.log(this.role, "@@@@@@@@@@@@@@");
       cache.setCache("role", ["super-admin"]);
+    },
+    // 生成用户菜单并动态注册路由
+    generateUserMenus(role: string): void {
+      console.log("用户的角色", role);
+      // 这里的menus和asyncRoutes是完全等价的，因为二者是引用数据类型
+      const menus: any[] = asyncRoutes;
+      // 生成菜单
+      map2Menus("common-user", menus);
+      // 动态注册路由
+      menus.forEach((element) => {
+        router.addRoute(element);
+      });
+      this.menus = menus;
+      console.log(menus, "改造后的菜单");
     }
   }
   // persist: true

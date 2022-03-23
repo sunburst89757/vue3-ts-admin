@@ -7,6 +7,7 @@
       :default-active="menuActive"
       text-color="#fff"
       :collapse="isCollapse"
+      :unique-opened="true"
     >
       <template v-for="menu in asyncRoutes" :key="menu.path">
         <el-sub-menu
@@ -81,7 +82,6 @@ const sendMessageToTabs = (menuOption: tabType, event: any) => {
     name: menuOption.path
   });
 };
-console.log(menuList.value, "菜单");
 </script>
 
 <style scoped lang="less">

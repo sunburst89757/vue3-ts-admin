@@ -9,7 +9,7 @@ const asyncRoutes: RouteRecordRaw[] = [
     path: "/salesManage",
     name: "salesManage",
     component: () => import("@/components/Layout.vue"),
-    redirect: "salesManage/customerManage",
+    redirect: "/salesManage/customerManage",
     meta: {
       name: "销售管理"
     },
@@ -56,6 +56,7 @@ const asyncRoutes: RouteRecordRaw[] = [
   {
     path: "/system",
     name: "system",
+    redirect: "/system/roleManage",
     component: () => import("@/components/Layout.vue"),
     meta: {
       name: "系统管理",
@@ -76,20 +77,20 @@ const asyncRoutes: RouteRecordRaw[] = [
         name: "userManage",
         component: () => import("@/views/systemManage/userManage.vue"),
         meta: {
-          name: "用户管理",
-          role: []
+          name: "用户管理"
+          // role: []
         }
       }
     ]
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/not-found",
+    meta: {
+      hidden: true,
+      name: "404"
+    }
   }
-  // {
-  //   path: "/:pathMatch(.*)*",
-  //   redirect: "/not-found",
-  //   meta: {
-  //     hidden: true,
-  //     name: "404"
-  //   }
-  // }
 ];
 
 export default asyncRoutes;
