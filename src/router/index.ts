@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, stringifyQuery } from "vue-router";
-import type { RouteRecordName, RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
 import { userStore } from "@/store";
-import asyncRoutes from "./asyncRoutes";
 import cache from "@/utils/cache";
 // 父组件是路由组件就匹配了其中一个，子组件也是路由组件，则必须匹配子路由才可以
 // 主路由所有用户都可以访问的路由
@@ -37,6 +36,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const user = userStore.role;
   const token = cache.getCache("token");
   if (to.path !== "/login") {
     if (!token) {
