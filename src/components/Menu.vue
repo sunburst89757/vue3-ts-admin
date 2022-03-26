@@ -55,13 +55,15 @@ import { storeToRefs } from "pinia";
 import { userStore, tabsStore } from "@/store";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 import { ref, computed } from "vue";
+import cache from "@/utils/cache";
 const router = useRouter();
 interface tabType {
   title: string;
   path: string;
 }
 let { menuActive } = storeToRefs(tabsStore);
-let { menus } = storeToRefs(userStore);
+// let { menus } = storeToRefs(userStore);
+let menus = cache.getCache("menus");
 let isCollapse = ref(false);
 let tabOption: tabType = {
   title: "",

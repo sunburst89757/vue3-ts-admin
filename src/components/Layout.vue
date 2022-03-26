@@ -8,7 +8,7 @@
         <el-aside width="200px">
           <nav-menu></nav-menu>
         </el-aside>
-        <el-main>
+        <el-main class="main">
           <nav-tabs></nav-tabs>
         </el-main>
       </el-container>
@@ -27,5 +27,8 @@ import { ref, reactive } from "vue";
 .layout {
   height: 100%;
   width: 100%;
+  .main {
+    padding-top: 0;
+  }
 }
 </style>

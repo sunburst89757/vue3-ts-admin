@@ -90,7 +90,7 @@ export const useUserStore = defineStore("mian", {
       });
       this.role.push("super-admin");
       console.log(this.role, "@@@@@@@@@@@@@@");
-      cache.setCache("role", ["super-admin"]);
+      cache.setCache("role", "super-admin");
     },
     // 动态注册路由
     generateUserRoutes(role: string): void {
@@ -117,6 +117,7 @@ export const useUserStore = defineStore("mian", {
       menus.unshift(route);
       menus.pop();
       this.menus = menus;
+      cache.setCache("menus", menus);
     }
   }
   // persist: true

@@ -1,5 +1,5 @@
 <template>
-  <div>这是customer</div>
+  <div class="customer-manage"></div>
 </template>
 
 <script setup lang="ts">
