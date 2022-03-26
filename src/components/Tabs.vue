@@ -24,8 +24,9 @@
 import { ref, reactive } from "vue";
 import _ from "lodash";
 import { storeToRefs } from "pinia";
-import { tabsStore } from "@/store";
+import { useTabStore } from "@/store/modules/tabs";
 import router from "@/router";
+const tabsStore = useTabStore();
 let { tabs, tabActive, menuActive } = storeToRefs(tabsStore);
 const removeTab = (path: string) => {
   if (tabs.value.length > 1) {

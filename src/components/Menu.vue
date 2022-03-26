@@ -52,7 +52,7 @@
 import asyncRoutes from "@/router/asyncRoutes";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
-import { userStore, tabsStore } from "@/store";
+import { useTabStore } from "@/store/modules/tabs";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 import { ref, computed } from "vue";
 import cache from "@/utils/cache";
@@ -61,6 +61,7 @@ interface tabType {
   title: string;
   path: string;
 }
+const tabsStore = useTabStore();
 let { menuActive } = storeToRefs(tabsStore);
 // let { menus } = storeToRefs(userStore);
 let menus = cache.getCache("menus");

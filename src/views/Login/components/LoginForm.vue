@@ -33,7 +33,7 @@
 import { reactive, ref, defineExpose } from "vue";
 import { FormInstance, ILoginType } from "./types";
 import cache from "@/utils/cache";
-import { userStore } from "@/store";
+import { useUserStore } from "@/store/modules/user";
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive({
   username: [
@@ -58,6 +58,7 @@ const rules = reactive({
     }
   ]
 });
+const userStore = useUserStore();
 let loginForm = reactive<ILoginType>({
   username: cache.getCache("username") || "test",
   password: cache.getCache("password") || "123456"
