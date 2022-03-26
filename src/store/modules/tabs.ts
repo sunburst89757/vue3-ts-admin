@@ -14,7 +14,7 @@ function isTabIntabs(tab: tabType, tabs: tabType[]) {
     return item.title === tab.title;
   });
 }
-export const useTabs = defineStore({
+export const useTabStore = defineStore({
   id: "tabsStore",
   state: (): stateType => {
     return {

@@ -1,5 +1,5 @@
-import { useUserStore } from "./modules/user";
-import { useTabs } from "./modules/tabs";
-const userStore = useUserStore();
-const tabsStore = useTabs();
-export { userStore, tabsStore };
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+const store = createPinia();
+store.use(piniaPluginPersistedstate);
+export default store;

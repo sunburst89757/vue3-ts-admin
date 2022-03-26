@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import cache from "@/utils/cache";
+import { useUserStore } from "@/store/modules/user";
 // 父组件是路由组件就匹配了其中一个，子组件也是路由组件，则必须匹配子路由才可以
 // 主路由所有用户都可以访问的路由
 const constanceRoutes: RouteRecordRaw[] = [

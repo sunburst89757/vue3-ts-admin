@@ -7,9 +7,12 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { userStore, tabsStore } from "@/store";
+import { useUserStore } from "@/store/modules/user";
+import { useTabStore } from "@/store/modules/tabs";
 import router from "@/router";
 import cache from "@/utils/cache";
+const userStore = useUserStore();
+const tabsStore = useTabStore();
 const logout = () => {
   cache.clearCache();
   userStore.$reset();
