@@ -10,7 +10,7 @@ interface stateType {
   nickName: string;
   userId: number;
   token: string;
-  role: string[];
+  role: string;
   menus: any[];
 }
 // 根据角色生成路由表
@@ -43,7 +43,7 @@ export const useUserStore = defineStore("mian", {
       nickName: "",
       userId: 0,
       token: "",
-      role: [],
+      role: "",
       menus: []
     };
   },
@@ -68,7 +68,7 @@ export const useUserStore = defineStore("mian", {
         // 获取用户角色
         await this.getUserRole();
         // 根据用户角色注册动态路由
-        this.generateUserRoutes(this.role[0]);
+        this.generateUserRoutes();
         // 生成菜单
         this.generateUserMenus();
         router.push("/");
@@ -88,20 +88,22 @@ export const useUserStore = defineStore("mian", {
         pageNum: 1,
         pageSize: 5
       });
-      this.role.push("super-admin");
+      this.role = "super-admin";
       console.log(this.role, "@@@@@@@@@@@@@@");
       cache.setCache("role", "super-admin");
     },
     // 动态注册路由
-    generateUserRoutes(role: string): void {
-      console.log("用户的角色", role);
+    generateUserRoutes(): void {
+      console.log("用户的角色", cache.getCache("role"));
+      console.log(asyncRoutes, "1异步路由");
+
       // 映射生成可访问的路由表
       roleMap2Routes("common-user", asyncRoutes);
       // 动态注册路由
       asyncRoutes.forEach((element) => {
         router.addRoute(element);
       });
-      console.log(asyncRoutes, "异步路由");
+      console.log(asyncRoutes, "改造的异步路由");
     },
     // 生成菜单
     generateUserMenus() {
@@ -115,10 +117,14 @@ export const useUserStore = defineStore("mian", {
       };
       const menus: any[] = JSON.parse(JSON.stringify(asyncRoutes));
       menus.unshift(route);
-      menus.pop();
+      // menus.pop();
       this.menus = menus;
       cache.setCache("menus", menus);
     }
-  }
-  // persist: true
+  },
+  persist: true
 });
+
+export function refreshGenerateRoutes(): void {
+  useUserStore().generateUserRoutes();
+}

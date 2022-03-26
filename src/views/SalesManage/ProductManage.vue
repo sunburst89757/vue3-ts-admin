@@ -1,9 +1,13 @@
 <template>
-  <div>产品管理</div>
+  <div class="product-manage">产品管理</div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.product-manage {
+  background-color: red;
+}
+</style>
