@@ -82,6 +82,14 @@ const asyncRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/not-found",
+    meta: {
+      hidden: true,
+      name: "404"
+    }
   }
 ];
 

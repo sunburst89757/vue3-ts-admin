@@ -53,18 +53,19 @@ import asyncRoutes from "@/router/asyncRoutes";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTabStore } from "@/store/modules/tabs";
+import { useUserStore } from "@/store/modules/user";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
 import { ref, computed } from "vue";
-import cache from "@/utils/cache";
 const router = useRouter();
+
 interface tabType {
   title: string;
   path: string;
 }
 const tabsStore = useTabStore();
+const userStore = useUserStore();
 let { menuActive } = storeToRefs(tabsStore);
-// let { menus } = storeToRefs(userStore);
-let menus = cache.getCache("menus");
+let { menus } = storeToRefs(userStore);
 let isCollapse = ref(false);
 let tabOption: tabType = {
   title: "",

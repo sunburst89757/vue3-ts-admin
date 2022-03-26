@@ -1,54 +1,60 @@
 import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
-import cache from "@/utils/cache";
+import { constanceRoutes } from "./constanceRoutes";
 import { useUserStore } from "@/store/modules/user";
-// 父组件是路由组件就匹配了其中一个，子组件也是路由组件，则必须匹配子路由才可以
-// 主路由所有用户都可以访问的路由
-const constanceRoutes: RouteRecordRaw[] = [
-  {
-    path: "/",
-    component: () => import("@/components/Layout.vue"),
-    redirect: "/dashboard",
-    children: [
-      {
-        // 这里子路由匹配是唯一特殊的，spa的整体布局需要匹配layout作为父组件，子组件也是路由组件也得匹配，dashboard想
-        // 作为一级路由必须做为/的子路由,子路由前面不能加/
-        path: "dashboard",
-        name: "dashboard",
-        component: () => import("@/views/Dashboard/Dashboard.vue")
+import cache from "@/utils/cache";
+import asyncRoutes from "./asyncRoutes";
+function generateAccessRoutes(role: string, routes: any[]): void {
+  if (role === "super-admin") {
+    return;
+  } else {
+    const delIndexs: number[] = [];
+    routes.forEach((route) => {
+      if (!route.meta.role || route.meta?.role.includes(role)) {
+        if (route?.children?.length > 0) {
+          generateAccessRoutes(role, route.children);
+        } else {
+          return;
+        }
+      } else {
+        const index = routes.findIndex((item) => item === route);
+        delIndexs.push(index);
       }
-    ]
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: () => import("../views/Login/Login.vue")
-  },
-  {
-    path: "/not-found",
-    component: () => import("@/components/404.vue")
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: "/not-found",
-    meta: {
-      hidden: true,
-      name: "404"
-    }
+    });
+    delIndexs.forEach((val, index) => {
+      // 只有第一个删除的元素位置是正确的，后面由于数组长度减少，因此对应的序号也要减一才可以
+      index === 0 ? routes.splice(val, 1) : routes.splice(val - 1, 1);
+    });
   }
-];
-
+}
 const router = createRouter({
   history: createWebHistory(),
   routes: constanceRoutes
 });
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const token = cache.getCache("token");
   if (to.path !== "/login") {
     if (!token) {
       router.push("/login");
     } else {
-      next();
+      const userStore = useUserStore();
+      if (!userStore.role) {
+        console.log("执行");
+        await userStore.getUserRole();
+        generateAccessRoutes(userStore.role, asyncRoutes);
+        // 注册动态路由
+        asyncRoutes.forEach((element) => {
+          router.addRoute(element);
+        });
+        userStore.generateUserMenus();
+        console.log(to, "to对象");
+
+        // 不使用 next() 是因为，在执行完 router.addRoute 后，
+        // 原本的路由表内还没有添加进去的路由，会 No match
+        // replace 使路由从新进入一遍，进行匹配即可
+        next({ ...to, replace: true });
+      } else {
+        next();
+      }
     }
   } else {
     next();

@@ -24,13 +24,5 @@ export const constanceRoutes: RouteRecordRaw[] = [
   {
     path: "/not-found",
     component: () => import("@/components/404.vue")
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: "/not-found",
-    meta: {
-      hidden: true,
-      name: "404"
-    }
   }
 ];

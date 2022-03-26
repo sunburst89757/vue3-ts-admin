@@ -34,6 +34,7 @@ import { reactive, ref, defineExpose } from "vue";
 import { FormInstance, ILoginType } from "./types";
 import cache from "@/utils/cache";
 import { useUserStore } from "@/store/modules/user";
+import { useRouter } from "vue-router";
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive({
   username: [
@@ -58,18 +59,22 @@ const rules = reactive({
     }
   ]
 });
+const router = useRouter();
 const userStore = useUserStore();
 let loginForm = reactive<ILoginType>({
   username: cache.getCache("username") || "test",
   password: cache.getCache("password") || "123456"
 });
 const validate = () => {
-  ruleFormRef.value?.validate((valid) => {
+  ruleFormRef.value?.validate(async (valid) => {
     if (valid) {
       cache.setCache("username", loginForm.username);
       cache.setCache("password", loginForm.password);
       console.log("验证通过进行登录操作");
-      userStore.toLogin(loginForm);
+      await userStore.toLogin(loginForm).catch((err) => {
+        console.log(err);
+      });
+      router.push("/");
     } else {
       console.log("验证失败，提示");
     }

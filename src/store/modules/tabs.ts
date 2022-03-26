@@ -15,7 +15,7 @@ function isTabIntabs(tab: tabType, tabs: tabType[]) {
   });
 }
 export const useTabStore = defineStore({
-  id: "tabsStore",
+  id: "tabs",
   state: (): stateType => {
     return {
       tabs: [
