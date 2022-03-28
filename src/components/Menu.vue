@@ -6,8 +6,9 @@
       class="el-menu-vertical-demo menus"
       :default-active="menuActive"
       text-color="#fff"
-      :collapse="isCollapse"
+      :collapse="isFold"
       :unique-opened="true"
+      :collapse-transition="false"
     >
       <template v-for="menu in menus" :key="menu.path">
         <el-sub-menu
@@ -55,18 +56,20 @@ import { storeToRefs } from "pinia";
 import { useTabStore } from "@/store/modules/tabs";
 import { useUserStore } from "@/store/modules/user";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
-import { ref, computed } from "vue";
+import { ref, computed, defineProps } from "vue";
 const router = useRouter();
 
 interface tabType {
   title: string;
   path: string;
 }
+const props = defineProps({
+  isFold: Boolean
+});
 const tabsStore = useTabStore();
 const userStore = useUserStore();
 let { menuActive } = storeToRefs(tabsStore);
 let { menus } = storeToRefs(userStore);
-let isCollapse = ref(false);
 let tabOption: tabType = {
   title: "",
   path: ""

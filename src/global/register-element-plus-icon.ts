@@ -1,7 +1,7 @@
 // element-plus 的icon配置文件
 import type { App } from "vue";
-import { User, Lock, Location, Menu } from "@element-plus/icons-vue";
-const components = [User, Lock, Location, Menu];
+import { User, Lock, Location, Menu, Fold } from "@element-plus/icons-vue";
+const components = [User, Lock, Location, Menu, Fold];
 
 export function registerIcon(app: App): void {
   components.forEach((component) => {

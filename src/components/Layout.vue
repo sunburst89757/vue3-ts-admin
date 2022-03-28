@@ -2,11 +2,11 @@
   <div>
     <el-container class="layout">
       <el-header>
-        <nav-header></nav-header>
+        <nav-header @fold="handleFold"></nav-header>
       </el-header>
       <el-container>
-        <el-aside width="200px">
-          <nav-menu></nav-menu>
+        <el-aside :width="menuWidth">
+          <nav-menu :isFold="isFold"></nav-menu>
         </el-aside>
         <el-main class="main">
           <nav-tabs></nav-tabs>
@@ -20,7 +20,15 @@
 import NavMenu from "./Menu.vue";
 import NavHeader from "./Header.vue";
 import NavTabs from "./Tabs.vue";
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
+const isFold = ref(false);
+const handleFold = (val: boolean) => {
+  isFold.value = val;
+  console.log("isFold", isFold.value);
+};
+const menuWidth = computed(() => {
+  return isFold.value ? "100px" : "200px";
+});
 </script>
 
 <style scoped lang="less">
