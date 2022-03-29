@@ -36,8 +36,8 @@
             <el-date-picker
               type="daterange"
               range-separator="To"
-              start-placeholder="Start date"
-              end-placeholder="End date"
+              start-placeholder="起始日期"
+              end-placeholder="终止日期"
             />
           </el-form-item>
         </el-col>

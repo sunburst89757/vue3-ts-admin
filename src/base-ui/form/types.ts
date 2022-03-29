@@ -1,4 +1,4 @@
-export interface ISelectType {
+export interface IFormItemType {
   value: string;
   label: string;
 }
