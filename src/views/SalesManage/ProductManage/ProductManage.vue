@@ -1,6 +1,6 @@
 <template>
   <div class="product-manage">
-    <yz-form v-bind="formConfig"></yz-form>
+    <yz-form v-bind="formConfig" v-model="formData"></yz-form>
   </div>
 </template>
 
@@ -8,6 +8,12 @@
 import { ref, reactive } from "vue";
 import YzForm from "@/base-ui/form";
 import { formConfig } from "./config";
+const formData = reactive({
+  productName: "",
+  sport: "",
+  timeRange: [],
+  time: ""
+});
 </script>
 
 <style scoped lang="less">

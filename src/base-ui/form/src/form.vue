@@ -9,6 +9,7 @@
                 <el-input
                   :placeholder="formItem.placeholder"
                   style="width: 100%"
+                  v-model="formData[`${formItem.field}`]"
                 ></el-input>
               </template>
               <template v-else-if="formItem.type === 'select'">
@@ -16,6 +17,7 @@
                   class="m-2"
                   :placeholder="formItem.placeholder"
                   style="width: 100%"
+                  v-model="formData[`${formItem.field}`]"
                 >
                   <el-option
                     v-for="option in formItem.options"
@@ -32,24 +34,35 @@
                   start-placeholder="起始日期"
                   end-placeholder="结束日期"
                   style="width: 100%"
+                  v-model="formData[`${formItem.field}`]"
                 />
                 <el-date-picker
                   v-else-if="formItem.otherOptions?.type === 'date'"
                   :type="formItem.otherOptions?.type"
                   placeholder="选择日期"
                   style="width: 100%"
+                  v-model="formData[`${formItem.field}`]"
                 />
               </template>
             </el-form-item>
           </el-col>
         </template>
+        <el-col :span="4" :offset="20">
+          <slot name="searchBtns">
+            <div class="btn-position">
+              <el-button type="primary" icon="search">搜索</el-button>
+              <el-button icon="refresh">重置</el-button>
+            </div>
+          </slot>
+        </el-col>
       </el-row>
     </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, defineProps, PropType } from "vue";
+import _ from "lodash";
+import { ref, reactive, defineProps, PropType, watch, defineEmits } from "vue";
 import type { IFormItem } from "../types";
 const props = defineProps({
   formItems: {
@@ -70,8 +83,22 @@ const props = defineProps({
   labelWidth: {
     type: String,
     default: "100px"
+  },
+  modelValue: {
+    type: Object as PropType<any>,
+    require: true
   }
 });
+const emit = defineEmits(["update:modelValue"]);
+const formData = reactive(_.cloneDeep(props.modelValue));
+watch(
+  formData,
+  (val) => {
+    console.log("触发");
+    emit("update:modelValue", val);
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped lang="less">

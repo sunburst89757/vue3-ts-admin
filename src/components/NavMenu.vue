@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="nav-menu">
     <el-menu
       active-text-color="#ffd04b"
       background-color="#545c64"
@@ -90,7 +90,7 @@ const sendMessageToTabs = (menuOption: tabType, event: any) => {
 </script>
 
 <style scoped lang="less">
-.menu {
+.nav-menu {
   width: 100%;
   height: 100%;
   .menus {

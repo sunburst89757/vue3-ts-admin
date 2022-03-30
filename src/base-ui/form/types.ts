@@ -7,6 +7,7 @@ interface datePickerOption {
   type: "date" | "daterange" | "datetime-local";
 }
 export interface IFormItem {
+  field: string;
   type: IformType;
   label: string;
   placeholder: string;
@@ -16,6 +17,6 @@ export interface IFormItem {
 
 export interface IForm {
   formItems: IFormItem[];
-  colLayout: any;
-  labelWidth: string;
+  colLayout?: any;
+  labelWidth?: string;
 }

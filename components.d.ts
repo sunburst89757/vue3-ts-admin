@@ -26,7 +26,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     Header: typeof import('./src/components/Header.vue')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']
-    Menu: typeof import('./src/components/Menu.vue')['default']
+    NavMenu: typeof import('./src/components/NavMenu.vue')['default']
     Tabs: typeof import('./src/components/Tabs.vue')['default']
   }
 }

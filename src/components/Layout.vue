@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import NavMenu from "./Menu.vue";
+import NavMenu from "./NavMenu.vue";
 import NavHeader from "./Header.vue";
 import NavTabs from "./Tabs.vue";
 import { ref, reactive, computed } from "vue";
