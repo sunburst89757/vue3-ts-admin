@@ -27,7 +27,7 @@ const asyncRoutes: RouteRecordRaw[] = [
       {
         path: "productManage",
         name: "productManage",
-        component: () => import("@/views/SalesManage/ProductManage.vue"),
+        component: () => import("@/views/SalesManage/ProductManage"),
         meta: {
           name: "产品管理",
           role: ["admin", "common-user"]
