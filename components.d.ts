@@ -27,6 +27,7 @@ declare module 'vue' {
     Header: typeof import('./src/components/Header.vue')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']
     NavMenu: typeof import('./src/components/NavMenu.vue')['default']
+    PageSearch: typeof import('./src/components/page-search/src/PageSearch.vue')['default']
     Tabs: typeof import('./src/components/Tabs.vue')['default']
   }
 }

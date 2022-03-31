@@ -48,12 +48,7 @@
           </el-col>
         </template>
         <el-col :span="4" :offset="20">
-          <slot name="searchBtns">
-            <div class="btn-position">
-              <el-button type="primary" icon="search">搜索</el-button>
-              <el-button icon="refresh">重置</el-button>
-            </div>
-          </slot>
+          <slot name="footer"> </slot>
         </el-col>
       </el-row>
     </el-form>
@@ -66,7 +61,8 @@ import { ref, reactive, defineProps, PropType, watch, defineEmits } from "vue";
 import type { IFormItem } from "../types";
 const props = defineProps({
   formItems: {
-    type: Array as PropType<IFormItem[]>
+    type: Array as PropType<IFormItem[]>,
+    require: true
   },
   colLayout: {
     type: Object,
