@@ -1,7 +1,9 @@
 <template>
   <div class="product-manage">
     <page-search v-bind="formConfig"></page-search>
-    <div>{{ $filter("123") }}</div>
+    <!-- ts乱报错 -->
+    <div>{{ $filter.formatTimeFromUtc("2019-03-06T08:00:00+08:00") }}</div>
+    <div>{{ $filter.formatTimeFromTimeStamp(1318781876) }}</div>
   </div>
 </template>
 
