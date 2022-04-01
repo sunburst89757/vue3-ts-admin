@@ -35,6 +35,7 @@
                   end-placeholder="结束日期"
                   style="width: 100%"
                   v-model="formData[`${formItem.field}`]"
+                  value-format="x"
                 />
                 <el-date-picker
                   v-else-if="formItem.otherOptions?.type === 'date'"
@@ -42,6 +43,7 @@
                   placeholder="选择日期"
                   style="width: 100%"
                   v-model="formData[`${formItem.field}`]"
+                  value-format="x"
                 />
               </template>
             </el-form-item>

@@ -6,11 +6,19 @@
         <el-button icon="refresh">重置</el-button>
       </template>
     </YzForm>
+    <div>时间{{ formData.time }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, defineProps, computed, PropType } from "vue";
+import {
+  reactive,
+  defineProps,
+  computed,
+  PropType,
+  getCurrentInstance,
+  ComponentInternalInstance
+} from "vue";
 import { IForm } from "@/base-ui/form";
 import YzForm from "@/base-ui/form";
 import { formConfig } from "@/views/SalesManage/ProductManage/config";
@@ -25,6 +33,18 @@ const props = defineProps({
 const formData = reactive<IFormData>({});
 formConfig.formItems.forEach((formItem) => {
   formData[`${formItem.field}`] = "";
+});
+const {
+  appContext: {
+    config: {
+      globalProperties: { $filter }
+    }
+  }
+} = getCurrentInstance() as ComponentInternalInstance;
+const computeVal = computed(() => {
+  console.log("计算");
+
+  return $filter.formatTimeFromGmt(formData.time);
 });
 </script>
 

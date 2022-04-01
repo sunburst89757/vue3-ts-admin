@@ -6,7 +6,6 @@
     <div>{{ $filter.formatTimeFromTimeStamp(1318781876) }}</div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import pageSearch from "@/components/page-search";
