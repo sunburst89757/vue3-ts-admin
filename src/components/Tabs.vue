@@ -14,18 +14,25 @@
         :label="item.title"
         :name="item.path"
       >
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <transition>
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </transition>
+        </router-view>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import _ from "lodash";
 import { storeToRefs } from "pinia";
 import { useTabStore } from "@/store/modules/tabs";
-import router from "@/router";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const tabsStore = useTabStore();
 let { tabs, tabActive, menuActive } = storeToRefs(tabsStore);
 const removeTab = (path: string) => {

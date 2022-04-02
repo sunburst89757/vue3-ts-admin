@@ -3,6 +3,13 @@ import { constanceRoutes } from "./constanceRoutes";
 import { useUserStore } from "@/store/modules/user";
 import cache from "@/utils/cache";
 import asyncRoutes from "./asyncRoutes";
+declare module "vue-router" {
+  interface RouteMeta {
+    name?: string;
+    hidden?: boolean;
+    role?: string[];
+  }
+}
 function generateAccessRoutes(role: string, routes: any[]): void {
   if (role === "super-admin") {
     return;

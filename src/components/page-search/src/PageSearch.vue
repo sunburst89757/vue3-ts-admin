@@ -6,7 +6,6 @@
         <el-button icon="rnoefresh">重置</el-button>
       </template>
     </YzForm>
-    <div>时间{{ formData.time }}</div>
   </div>
 </template>
 
