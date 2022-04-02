@@ -44,5 +44,9 @@ const handleFold = () => {
     right: 5vw;
     top: 20px;
   }
+  .nav-tabs {
+    position: absolute;
+    bottom: 0;
+  }
 }
 </style>

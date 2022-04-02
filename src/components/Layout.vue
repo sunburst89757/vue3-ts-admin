@@ -9,7 +9,16 @@
           <nav-menu :isFold="isFold"></nav-menu>
         </el-aside>
         <el-main class="main">
-          <nav-tabs></nav-tabs>
+          <div class="nav-tabs">
+            <nav-tabs></nav-tabs>
+          </div>
+          <router-view v-slot="{ Component }">
+            <transition>
+              <keep-alive>
+                <component :is="Component" />
+              </keep-alive>
+            </transition>
+          </router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -37,6 +46,10 @@ const menuWidth = computed(() => {
   width: 100%;
   .main {
     padding-top: 0;
+    .nav-tabs {
+      width: 100%;
+      height: 50px;
+    }
   }
 }
 </style>
