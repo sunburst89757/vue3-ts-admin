@@ -24,23 +24,13 @@
             :index="menuItem.path"
             v-for="menuItem in menu.children"
             :key="menuItem.path"
-            @click="sendMessageToTabs({
-              title:(menuItem.meta as any).name as string,
-              path:menuItem.name as string
-            },$event)"
+            @click="switchRoute(menuItem.name)"
           >
             <el-icon><setting /></el-icon>
             <template #title>{{ (menuItem.meta as any).name }}</template>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item
-          v-else
-          :index="menu.name"
-          @click="sendMessageToTabs({
-              title:(menu.meta as any).name as string,
-              path:menu.name as string
-            },$event)"
-        >
+        <el-menu-item v-else :index="menu.name" @click="switchRoute(menu.name)">
           <el-icon><icon-menu /></el-icon>
           <template #title>{{ (menu.meta as any).name }}</template>
         </el-menu-item>
@@ -50,13 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import asyncRoutes from "@/router/asyncRoutes";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTabStore } from "@/store/modules/tabs";
 import { useUserStore } from "@/store/modules/user";
 import { Menu as IconMenu, Setting } from "@element-plus/icons-vue";
-import { ref, computed, defineProps } from "vue";
+import { defineProps } from "vue";
 const router = useRouter();
 
 interface tabType {
@@ -70,21 +59,9 @@ const tabsStore = useTabStore();
 const userStore = useUserStore();
 let { menuActive } = storeToRefs(tabsStore);
 let { menus } = storeToRefs(userStore);
-let tabOption: tabType = {
-  title: "",
-  path: ""
-};
-// 点击菜单栏一项，tab增加一栏
-const sendMessageToTabs = (menuOption: tabType, event: any) => {
-  console.log("menuOption", menuOption);
-  menuActive.value = event.index;
-  tabOption.title = menuOption.title;
-  tabOption.path = menuOption.path;
-  console.log("tabOption", tabOption);
-  // 比较传递tabOption和menuOption为啥结果不一样
-  tabsStore.addTab(menuOption);
+const switchRoute = (pathName: string) => {
   router.push({
-    name: menuOption.path
+    name: pathName
   });
 };
 </script>

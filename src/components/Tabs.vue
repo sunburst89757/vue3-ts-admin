@@ -5,8 +5,8 @@
       type="card"
       closable
       class="demo-tabs tabs"
-      @tab-remove="removeTab"
-      @tab-click="jumpOtherTab"
+      @tab-remove="tabsStore.removeTab"
+      @tab-click="tabsStore.jumpOtherTab"
     >
       <el-tab-pane
         v-for="item in tabs"
@@ -20,43 +20,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from "vue";
+import { watch } from "vue";
 import _ from "lodash";
 import { storeToRefs } from "pinia";
 import { useTabStore } from "@/store/modules/tabs";
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { useRoute } from "vue-router";
+const route = useRoute();
 const tabsStore = useTabStore();
-let { tabs, tabActive, menuActive } = storeToRefs(tabsStore);
-const removeTab = (path: string) => {
-  if (tabs.value.length > 1) {
-    const val = tabs.value.find((item) => {
-      return item.path === path;
-    });
-    _.pull(tabs.value, val);
-    tabActive.value = tabs.value[tabs.value.length - 1].path;
-    menuActive.value = tabs.value[tabs.value.length - 1].path;
-    router.push({
-      name: tabActive.value
-    });
-  } else {
-    tabs.value.pop();
-    tabs.value.push({
-      path: "dashboard",
-      title: "首页"
-    });
-    tabActive.value = "dashboard";
-    menuActive.value = "dashboard";
-    router.push({
-      name: "dashboard"
-    });
-  }
-};
-const jumpOtherTab = (val: any) => {
-  menuActive.value = val.props.name;
-  console.log(val.props.name, "route的name");
-  router.push({ name: val.props.name });
-};
+let { tabs, tabActive } = storeToRefs(tabsStore);
+
+watch(route, () => {
+  console.log("监听route", route);
+
+  tabsStore.handleTab(route);
+});
 </script>
 
 <style scoped lang="less">

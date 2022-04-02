@@ -34,6 +34,7 @@ import { reactive, ref, defineExpose } from "vue";
 import { FormInstance, ILoginType } from "./types";
 import cache from "@/utils/cache";
 import { useUserStore } from "@/store/modules/user";
+import { useTabStore } from "@/store/modules/tabs";
 import { useRouter } from "vue-router";
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive({
@@ -60,6 +61,7 @@ const rules = reactive({
   ]
 });
 const router = useRouter();
+const tabStore = useTabStore();
 const userStore = useUserStore();
 let loginForm = reactive<ILoginType>({
   username: cache.getCache("username") || "test",
@@ -71,10 +73,20 @@ const validate = () => {
       cache.setCache("username", loginForm.username);
       cache.setCache("password", loginForm.password);
       console.log("验证通过进行登录操作");
-      await userStore.toLogin(loginForm).catch((err) => {
-        console.log(err);
+      const flag = await userStore.toLogin(loginForm).catch((err) => {
+        return err;
       });
-      router.push("/");
+      if (flag) {
+        router.push("/");
+        tabStore.tabs.push({
+          title: "首页",
+          path: "dashboard"
+        });
+        tabStore.tabActive = "dashboard";
+        tabStore.menuActive = "dashboard";
+      } else {
+        console.log("登录失败验证密码");
+      }
     } else {
       console.log("验证失败，提示");
     }

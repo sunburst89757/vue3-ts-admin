@@ -31,10 +31,10 @@ export const useUserStore = defineStore("user", {
           userId: data.userId
         });
         cache.setCache("token", data.token);
+        return true;
         // router.push("/");
-      } else {
-        console.log(111);
       }
+      return false;
     },
     // 获取用户角色
     async getUserRole() {
