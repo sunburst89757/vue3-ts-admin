@@ -3,6 +3,11 @@
     <page-search v-bind="formConfig"></page-search>
   </div>
 </template>
+<script lang="ts">
+export default {
+  name: "productManage"
+};
+</script>
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import pageSearch from "@/components/page-search";

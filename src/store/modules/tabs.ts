@@ -10,6 +10,11 @@ interface stateType {
   tabs: tabType[];
   tabActive: string;
   menuActive: string;
+  cacheComponents: string[];
+}
+function deleteArrElement<T>(arr: T[], element: T) {
+  const index = arr.findIndex((item) => item === element);
+  arr.splice(index, 1);
 }
 export const useTabStore = defineStore({
   id: "tabs",
@@ -23,11 +28,16 @@ export const useTabStore = defineStore({
         } */
       ],
       tabActive: "",
-      menuActive: ""
+      menuActive: "",
+      cacheComponents: []
     };
   },
   actions: {
     isTabInTabs(routeName: RouteRecordName) {
+      // 退出登录时也监听了route导致把登录放进了tab
+      if (routeName === "login") {
+        return false;
+      }
       return this.tabs.some((tab) => {
         return tab.path === routeName;
       });
@@ -37,13 +47,17 @@ export const useTabStore = defineStore({
       console.log(this.tabs);
       this.tabs.push(tab);
       this.tabActive = tab.path;
+      this.menuActive = tab.path;
+      this.cacheComponents.push(tab.path);
     },
     removeTab(path: string) {
       if (this.tabs.length > 1) {
         const val = this.tabs.find((item) => {
           return item.path === path;
         });
-        _.pull(this.tabs, val);
+        // _.pull(this.tabs, val);
+        deleteArrElement(this.tabs, val);
+        deleteArrElement(this.cacheComponents, path);
         this.tabActive = this.tabs[this.tabs.length - 1].path;
         this.menuActive = this.tabs[this.tabs.length - 1].path;
         router.push({
@@ -51,12 +65,14 @@ export const useTabStore = defineStore({
         });
       } else {
         this.tabs.pop();
+        this.cacheComponents.pop();
         this.tabs.push({
           path: "dashboard",
           title: "首页"
         });
         this.tabActive = "dashboard";
         this.menuActive = "dashboard";
+        this.cacheComponents.push("dashboard");
         router.push({
           name: "dashboard"
         });
@@ -64,10 +80,13 @@ export const useTabStore = defineStore({
     },
     jumpOtherTab(val: any) {
       this.menuActive = val.props.name;
-      console.log(val.props.name, "route的name");
       router.push({ name: val.props.name });
     },
     handleTab(route: RouteLocationNormalizedLoaded) {
+      // 退出登录会导致roue变化监听route会来修改tab
+      if (route.name === "login") {
+        return;
+      }
       if (!this.isTabInTabs(route.name as RouteRecordName)) {
         const tab = {
           title: route.meta.name as string,
@@ -76,12 +95,23 @@ export const useTabStore = defineStore({
         this.addTab(tab);
       } else {
         // 已有的tab，重置tab状态
-        console.log(route.name, "名字");
+        // console.log(route.name, "名字");
 
         this.tabActive = String(route.name);
         this.menuActive = this.tabActive;
         return;
       }
+    },
+    // 登录初始化状态：因为在layout监听路由变化来操作tab因此首页就不能自动加载
+    initState() {
+      this.tabs.push({ title: "首页", path: "dashboard" });
+      this.$patch({
+        tabActive: "dashboard",
+        menuActive: "dashboard"
+      });
+      // this.tabActive = "dashboard";
+      // this.menuActive = "dashboard";
+      this.cacheComponents.push("dashboard");
     }
   },
   // 开启数据缓存

@@ -78,12 +78,7 @@ const validate = () => {
       });
       if (flag) {
         router.push("/");
-        tabStore.tabs.push({
-          title: "首页",
-          path: "dashboard"
-        });
-        tabStore.tabActive = "dashboard";
-        tabStore.menuActive = "dashboard";
+        tabStore.initState();
       } else {
         console.log("登录失败验证密码");
       }

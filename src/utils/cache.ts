@@ -16,6 +16,7 @@ class Cache {
   }
   clearCache() {
     localStorage.clear();
+    sessionStorage.clear();
   }
 }
 

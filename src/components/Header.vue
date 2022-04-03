@@ -18,9 +18,9 @@ const userStore = useUserStore();
 const tabsStore = useTabStore();
 const logout = () => {
   cache.clearCache();
+  router.push("/login");
   userStore.$reset();
   tabsStore.$reset();
-  router.push("/login");
 };
 const isFold = ref(false);
 const emit = defineEmits(["fold"]);

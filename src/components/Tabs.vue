@@ -20,20 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
 import _ from "lodash";
 import { storeToRefs } from "pinia";
 import { useTabStore } from "@/store/modules/tabs";
-import { useRoute } from "vue-router";
-const route = useRoute();
 const tabsStore = useTabStore();
 let { tabs, tabActive } = storeToRefs(tabsStore);
-
-watch(route, () => {
-  console.log("监听route", route);
-
-  tabsStore.handleTab(route);
-});
 </script>
 
 <style scoped lang="less">

@@ -12,7 +12,10 @@ export const constanceRoutes: RouteRecordRaw[] = [
         // 作为一级路由必须做为/的子路由,子路由前面不能加/
         path: "dashboard",
         name: "dashboard",
-        component: () => import("@/views/Dashboard/Dashboard.vue")
+        component: () => import("@/views/Dashboard/Dashboard.vue"),
+        meta: {
+          name: "首页"
+        }
       }
     ]
   },
