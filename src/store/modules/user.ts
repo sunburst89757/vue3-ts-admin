@@ -65,7 +65,6 @@ export const useUserStore = defineStore("user", {
   // 这里没有把menus和role持久化，这是因为role和menus在刷新的时候动态生成路由时会重新生成一次
   persist: {
     key: "user",
-    storage: window.sessionStorage,
     paths: ["nickName", "userId"]
   }
 });

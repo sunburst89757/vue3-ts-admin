@@ -1,6 +1,11 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  RouteLocationNormalized
+} from "vue-router";
 import { constanceRoutes } from "./constanceRoutes";
 import { useUserStore } from "@/store/modules/user";
+import { useTabStore } from "@/store/modules/tabs";
 import cache from "@/utils/cache";
 import asyncRoutes from "./asyncRoutes";
 declare module "vue-router" {
@@ -33,6 +38,10 @@ function generateAccessRoutes(role: string, routes: any[]): void {
     });
   }
 }
+function generateMenuAndTab(route: RouteLocationNormalized) {
+  const tabStore = useTabStore();
+  tabStore.handleTab(route);
+}
 const router = createRouter({
   history: createWebHistory(),
   routes: constanceRoutes
@@ -43,9 +52,17 @@ router.beforeEach(async (to, from, next) => {
     if (!token) {
       router.push("/login");
     } else {
+      console.log("查询to对象", to);
+
       const userStore = useUserStore();
+      // 登录或者刷新的时候
       if (!userStore.role) {
-        console.log("执行");
+        // const tabStore = useTabStore();
+        // 刷新的时候解决menuActive,tabActive的问题
+        // tabStore.$patch({
+        //   menuActive: "dashboard",
+        //   tabActive: "dashboard"
+        // });
         await userStore.getUserRole();
         generateAccessRoutes(userStore.role, asyncRoutes);
         // 注册动态路由
@@ -53,7 +70,7 @@ router.beforeEach(async (to, from, next) => {
           router.addRoute(element);
         });
         userStore.generateUserMenus();
-        console.log(to, "to对象");
+        // console.log(to, "to对象");
 
         // 不使用 next() 是因为，在执行完 router.addRoute 后，
         // 原本的路由表内还没有添加进去的路由，会 No match
@@ -62,6 +79,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         next();
       }
+      generateMenuAndTab(to);
     }
   } else {
     next();

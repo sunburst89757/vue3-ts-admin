@@ -78,7 +78,6 @@ const validate = () => {
       });
       if (flag) {
         router.push("/");
-        tabStore.initState();
       } else {
         console.log("登录失败验证密码");
       }

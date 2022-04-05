@@ -12,9 +12,9 @@
           <div class="nav-tabs">
             <nav-tabs></nav-tabs>
           </div>
-          <router-view v-slot="{ Component }" :max="10">
+          <router-view v-slot="{ Component }">
             <transition>
-              <keep-alive :include="cacheComponents">
+              <keep-alive :include="cacheComponents" :max="10">
                 <component :is="Component" />
               </keep-alive>
             </transition>
@@ -30,18 +30,11 @@ import NavMenu from "./NavMenu.vue";
 import NavHeader from "./Header.vue";
 import NavTabs from "./Tabs.vue";
 import { ref, computed, watch } from "vue";
-import { useRoute } from "vue-router";
 import { useTabStore } from "@/store/modules/tabs";
 import { storeToRefs } from "pinia";
 // 监视路由变化--对tab进行操作
-const route = useRoute();
 const tabsStore = useTabStore();
 const { cacheComponents } = storeToRefs(tabsStore);
-watch(route, () => {
-  // 这里路由跳转会响应两次原因暂时未知
-  // console.log("监听route", route);
-  tabsStore.handleTab(route);
-});
 // 折叠菜单操作
 const isFold = ref(false);
 const handleFold = (val: boolean) => {
@@ -51,7 +44,6 @@ const handleFold = (val: boolean) => {
 const menuWidth = computed(() => {
   return isFold.value ? "100px" : "200px";
 });
-console.error("layout咋了");
 </script>
 
 <style scoped lang="less">

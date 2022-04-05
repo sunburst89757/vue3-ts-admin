@@ -9,16 +9,12 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import pageSearch from "@/components/page-search";
 import { formConfig } from "../config";
 import { useSaleStore } from "@/store/modules/sales";
 const saleStore = useSaleStore();
-saleStore.getProductList();
-console.log("进行次数");
-onMounted(() => {
-  console.log("挂载");
-});
+// saleStore.getProductList();
 </script>
 
 <style scoped lang="less">

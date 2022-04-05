@@ -83,8 +83,10 @@ export const useTabStore = defineStore({
       router.push({ name: val.props.name });
     },
     handleTab(route: RouteLocationNormalizedLoaded) {
-      // 退出登录会导致roue变化监听route会来修改tab
-      if (route.name === "login") {
+      // 刷新时，因为没有动态注册路由，所以匹配不到路由，对应的path和name就都是undefined，这不能添加到tab上
+      console.log("zhixinghandle", route);
+
+      if (!route.name) {
         return;
       }
       if (!this.isTabInTabs(route.name as RouteRecordName)) {
@@ -96,22 +98,10 @@ export const useTabStore = defineStore({
       } else {
         // 已有的tab，重置tab状态
         // console.log(route.name, "名字");
-
         this.tabActive = String(route.name);
         this.menuActive = this.tabActive;
         return;
       }
-    },
-    // 登录初始化状态：因为在layout监听路由变化来操作tab因此首页就不能自动加载
-    initState() {
-      this.tabs.push({ title: "首页", path: "dashboard" });
-      this.$patch({
-        tabActive: "dashboard",
-        menuActive: "dashboard"
-      });
-      // this.tabActive = "dashboard";
-      // this.menuActive = "dashboard";
-      this.cacheComponents.push("dashboard");
     }
   },
   // 开启数据缓存
