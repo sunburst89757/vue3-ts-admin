@@ -9,12 +9,8 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { ref, reactive } from "vue";
 import pageSearch from "@/components/page-search";
 import { formConfig } from "../config";
-import { useSaleStore } from "@/store/modules/sales";
-const saleStore = useSaleStore();
-// saleStore.getProductList();
 </script>
 
 <style scoped lang="less">

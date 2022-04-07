@@ -4,7 +4,7 @@
 import Request from "./request/request";
 import type { interceptorsType } from "./request/request";
 const config = {
-  baseURL: "https://bgt.d9lab.net/trade",
+  baseURL: "https://bgt.d9lab.net/trade/",
   timeout: 10000
 };
 // 每个baseurl单独的拦截钩子配置,这里私有的拦截器先触发，公共的拦截器后触发
