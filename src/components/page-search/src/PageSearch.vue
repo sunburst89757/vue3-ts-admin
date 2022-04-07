@@ -33,11 +33,13 @@ formConfig.formItems.forEach((formItem) => {
 const formData = ref(formDataOrigin);
 // 这里必须用ref不能用reactive声明，不然的话这个formdata.productname在搜索的时候始终为空
 const handleSearch = () => {
-  saleStore.queryProductList.productName = formData.value.productName;
+  saleStore.queryParams.productName = formData.value.productName;
   saleStore.getProductList();
 };
 const handleRefresh = () => {
   formData.value = formDataOrigin;
+  saleStore.queryParams = saleStore.originQueryParmas;
+  saleStore.getProductList();
 };
 </script>
 

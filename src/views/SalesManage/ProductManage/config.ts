@@ -1,4 +1,5 @@
 import { IForm } from "@/base-ui/form";
+import { ITableConfigType } from "@/base-ui/table";
 export const formConfig: IForm = {
   // labelWidth: "120px",
   // colLayout: {
@@ -47,3 +48,22 @@ export const formConfig: IForm = {
     // }
   ]
 };
+export const tableConfig: ITableConfigType[] = [
+  {
+    label: "名称",
+    property: "name"
+  },
+  {
+    label: "规格",
+    property: "specificationModel"
+  },
+  {
+    label: "类别",
+    property: "productType"
+  },
+  {
+    label: "购买价格",
+    property: "purchasePrice"
+  },
+  { label: "操作", slotName: "handle" }
+];

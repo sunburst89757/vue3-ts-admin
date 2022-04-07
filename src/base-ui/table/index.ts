@@ -1,3 +1,3 @@
-import YzTable from "./table.vue";
-export default YzTable;
+import YzTable from "./src/table.vue";
+export { YzTable };
 export * from "./types";
