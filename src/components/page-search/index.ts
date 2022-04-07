@@ -1,3 +1,3 @@
 import pageSearch from "./src/PageSearch.vue";
-export default pageSearch;
+export { pageSearch };
 export * from "./types";

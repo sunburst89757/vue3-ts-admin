@@ -3,33 +3,49 @@
     <el-table
       ref="multipleTableRef"
       :data="propsList"
-      style="width: 100%"
       border
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection"> </el-table-column>
+      <el-table-column
+        v-if="isShowSelection"
+        type="selection"
+        align="center"
+        width="auto"
+      >
+      </el-table-column>
+      <el-table-column
+        v-if="isShowIndex"
+        type="index"
+        label="序号"
+        align="center"
+        min-width="500"
+      >
+      </el-table-column>
       <template
         v-for="tableItemConfig in tableConfig"
         :key="tableItemConfig.label"
       >
-        <!-- 使用有无property区分是否有插槽 -->
-        <template v-if="!tableItemConfig?.slotName">
-          <el-table-column
-            :label="tableItemConfig.label"
-            :property="tableItemConfig.property"
-            align="center"
-            show-overflow-tooltip
-          ></el-table-column
-        ></template>
-        <template v-else>
-          <slot :name="tableItemConfig.slotName"></slot>
-        </template>
+        <el-table-column
+          v-bind="tableItemConfig"
+          align="center"
+          show-overflow-tooltip
+        >
+          <template #default="scope" v-if="tableItemConfig?.slotName">
+            <slot
+              :name="tableItemConfig?.slotName"
+              :row="scope.row"
+              :filed="tableItemConfig.property"
+            ></slot>
+          </template>
+        </el-table-column>
       </template>
     </el-table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, defineProps, PropType } from "vue";
+import { ref, reactive, defineProps, PropType, defineEmits } from "vue";
 import { ITableConfigType } from "../types";
 const props = defineProps({
   propsList: {
@@ -39,8 +55,20 @@ const props = defineProps({
   tableConfig: {
     type: Array as PropType<ITableConfigType[]>,
     require: true
+  },
+  isShowSelection: {
+    type: Boolean,
+    default: true
+  },
+  isShowIndex: {
+    type: Boolean,
+    default: true
   }
 });
+const emits = defineEmits(["handleSelection"]);
+const handleSelectionChange = (val: any) => {
+  emits("handleSelection", val);
+};
 </script>
 
 <style scoped lang="less">

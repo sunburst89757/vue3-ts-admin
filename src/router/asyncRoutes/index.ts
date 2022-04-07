@@ -18,7 +18,7 @@ const asyncRoutes: RouteRecordRaw[] = [
         // 子路由不能前面不能加/
         path: "customerManage",
         name: "customerManage",
-        component: () => import("@/views/SalesManage/CustomerManage.vue"),
+        component: () => import("@/views/SalesManage/CustomerManage"),
         meta: {
           name: "顾客管理",
           role: ["admin", "common-user"]
